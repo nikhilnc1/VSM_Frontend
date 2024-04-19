@@ -1,0 +1,171 @@
+<app-sidebar>
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">{{title}} Model</div>
+            <div class="card-body">
+              <form [formGroup]="modelForm" (ngSubmit)="onSubmit()" class="forms-sample">
+                <div class="row" *ngIf="title=='Edit'" >
+                  <span class="btn btn-primary mb-3 mx-3" data-toggle="modal" data-target="#gallery" (click)="getModelDocs()">Add Document</span>
+                </div>
+                <div class="row">
+                <div class="form-group col-lg-6">
+                  <label for="exampleSelectGender">Brand</label>
+                  <select class="form-control form-control-sm form-select" formControlName="MO_brandId" [attr.disabled]="isReadonly ? '' :null">
+                    <option value="" selected>Select Brand</option>
+                    <option *ngFor="let brand of brands" [value]="brand.BR_id">{{brand.BR_title}}</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a brand.
+                  </div>
+                </div>
+                  
+                <div class="form-group col-lg-6">
+                  <label for="">Model Title</label>
+                  <input type="text" [readonly]="isReadonly" class="form-control form-control-sm" formControlName="MO_title" required>
+                  <div *ngIf="submitted && f['MO_title'].errors?.['required']" class="required-field">                        
+                    Please enter a car model.
+                  </div>
+                </div>
+                <div class="form-group col-lg-6 textarea-wrapper">
+                  <label class="form-label">Long Description</label>
+                  <textarea class="form-control form-control-sm"  formControlName="MO_longdescription" rows="4" [readonly]="isReadonly" required>
+                    </textarea>
+                  <div *ngIf="submitted && f['MO_longdescription'].errors?.['required']" class="required-field">                        
+                    Please enter a long description.
+                  </div>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label class="form-label">Short Description</label>
+                  <textarea class="form-control form-control-sm" formControlName="MO_shortdescription" rows="4" [readonly]="isReadonly" required>
+                  </textarea>
+                  <div *ngIf="submitted && f['MO_shortdescription'].errors?.['required']" class="required-field">                        
+                    Please enter a short description.
+                  </div>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label class="form-label">Pros</label>
+                  <textarea class="form-control form-control-sm" formControlName="MO_pros" rows="4" [readonly]="isReadonly" required></textarea>
+                  <div *ngIf="submitted && f['MO_pros'].errors?.['required']" class="required-field">                        
+                    Please enter a pros of this model.
+                  </div>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label class="form-label">Cons</label>
+                  <textarea class="form-control form-control-sm" formControlName="MO_cons" rows="4" [readonly]="isReadonly" required></textarea>
+                  <div *ngIf="submitted && f['MO_cons'].errors?.['required']" class="required-field">                        
+                    Please enter a cons of this model.
+                  </div>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label class="form-label">isDiscontinued</label>
+                    <select class="form-control form-control-sm form-select" formControlName="MO_isdiscontinued" [attr.disabled]="isReadonly ? '' :null" required>
+                      <option value=1>No</option>
+                      <option value=0>Yes</option>
+                    </select>
+                    <div *ngIf="submitted && f['MO_isdiscontinued'].errors?.['required']" class="required-field">                        
+                      Please enter a cons of this model.
+                    </div>
+                </div>
+                <!-- <div class="form-group col-lg-6">
+                  <label class="form-label">isDiscontinued</label>
+                  <textarea class="form-control" formControlName="MO_isdiscontinued" rows="4" [readonly]="isReadonly" required></textarea>                  
+                </div> -->
+                <div class="form-group col-lg-6">
+                  <label for="exampleSelectGender">Model Type</label>
+                  <select class="form-control form-control-sm" formControlName="MO_type" [attr.disabled]="isReadonly ? '' :null" required>
+                    <option value="" selected>Choose Model Type</option>
+                    <option *ngFor="let modeltype of modeltypeList" [value]="modeltype.MT_id">{{modeltype.MT_title}}</option>
+                  </select>
+                    Please choose a Model Type.
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="">Slug</label>
+                  <input type="text" [readonly]="isReadonly" class="form-control form-control-sm" formControlName="MO_slug" required>
+                  <div *ngIf="submitted && f['MO_slug'].errors?.['required']" class="required-field">                        
+                    Please enter a slug.
+                  </div>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label class="form-label" for="fileInput">Image of Model</label>
+                  <input #fileInput [ngClass]="imgSrc == '' ? '' : 'hideFileInput'"
+                  class="form-control form-control-sm"  type="file" (change)="onFileChange($event)"  [attr.disabled]="isReadonly ? '' :null"
+                  [readonly]="isReadonly">
+                  <div *ngIf="submitted && f['MO_dp'].errors?.['required']" class="required-field">                        
+                    Please upload file.
+                  </div>
+                  <div class="" *ngIf="imgSrc && imgSrc !== ''">
+                    <img [src]="imgSrc" height="100" (click)="triggerUpload()" class="pointer">
+                  </div>
+                </div>
+                </div>               
+                <div class="text-center">
+                  <button *ngIf="!isReadonly" type="submit" class="btn btn-primary mr-2">Save</button>
+                  <button class="btn btn-light" routerLink="/masters/model-list">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="title=='Edit'" class="modal fade" id="gallery" tabindex="-1" role="dialog" aria-labelledby="gallery"
+      aria-hidden="true">
+      <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="galleryLabel">Gallery Options</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <form [formGroup]="uploadForm" (ngSubmit)="submitUploadForm()" class="forms-sample">
+                    <div class="row form-group">
+                      <div class="col-lg-12">
+                        <div class="row">
+                          <!-- <div class="col-md-4">
+                            <label for="GRA_typeId">Model Type</label>
+                            <select class="form-control form-control-sm form-select"
+                              formControlName="GRA_typeId" (change)="showUploadInput=true">
+                              <option value="" selected disabled>Select Graphic Type</option>
+                              <option *ngFor="let graphictype of graphictypeList" [value]="graphictype._id">
+                                {{graphictype.GTY_title}}</option>
+                            </select>
+                          </div> -->
+                          <div class="col-md-4">
+                            <label class="form-label text-center">Upload Document</label>
+                            <input type="file" (change)="onSelectFile($event)" title=" " value="" />
+                            <!-- <input type="file" (change)="onSelectFile($event)" name="uploadfile" id="img" style="display:none;" />
+                            <label for="img">Click me to upload image</label> -->
+                          </div>
+                          <div class="col-md-4">
+                            <label for="MD_title">Document Title</label>
+                            <input class="form-control form-control-sm" type="text"
+                              formControlName="MD_title" placeholder="Enter Document Title">
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-center">
+                      <input type="hidden" value="" formControlName="Model">
+                      <button type="submit" class="btn btn-primary mr-2">Save</button>
+                      <!-- <button class="btn btn-light" routerLink="/masters/car-list">Cancel</button> -->
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </app-sidebar>

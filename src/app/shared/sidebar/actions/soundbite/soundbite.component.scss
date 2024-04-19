@@ -1,0 +1,52 @@
+.modal-dialog{
+    height: 50%;
+    width: 50%;
+    margin:auto;
+}
+
+
+.modal-header{
+    color: white;
+    background-color: #007bff;
+}
+
+textarea{ border: none; 
+    box-shadow: none !important;
+    -webkit-appearance:none;
+    outline:0px !important;
+    border: 1px solid black;
+}
+
+.openmodal{
+    margin-left: 40%;
+    width: 25%;
+    margin-top: 5%;
+}
+
+.icon1{
+   color: #007bff;
+
+}
+
+a{
+    margin: auto;
+}
+.form-check{
+    padding-left: 5%;
+}
+
+#left{
+position: absolute;
+left: 50px;
+}
+// #right{
+//     position: absolute;
+//     right: 100px;
+// }
+// input{
+//     color: #007bff;
+    
+
+// }
+
+

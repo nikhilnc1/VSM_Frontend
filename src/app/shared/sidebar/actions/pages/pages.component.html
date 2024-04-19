@@ -1,0 +1,202 @@
+<app-sidebar>
+    <div class="content-wrapper">
+        <div class="row mb-4 mx-2">
+            <!--       <div class="mr-5">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                 <li class="breadcrumb-item active" aria-current="page">Media Type</li>
+            </ol>
+          </nav>
+        </div>
+   -->
+            <a [routerLink]="[]">
+                <input type="button" class="btn btn-primary shadow-sm" value="Add Pages" (click)="addRecord()"
+                    data-toggle="modal" data-target="#my-modal">
+            </a>
+
+            <div class="input-group col-lg-4 mx-5 mb-3">
+                <input type="text" [(ngModel)]="term" class="form-control shadow-sm rounded-start"
+                    placeholder="Search now" aria-label="Search now" aria-describedby="basic-addon2">
+                <span class="input-group-text bg-primary shadow-sm rounded-end" id="basic-addon2"><i
+                        class="icon-search text-white"></i></span>
+            </div>
+        </div>
+        <!-- <div *ngIf="showForm" class="row" >
+          <div class="col-12 grid-margin stretch-card">
+              <div class="card">
+            <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">{{title}}
+              Media Type</div>
+            <div class="card-body">
+              <form [formGroup]="graphictypeForm" (ngSubmit)="onSubmit()" class="forms-sample">
+                <div class="form-group">
+                  <label for="">Media Title</label>
+                  <input type="text" class="form-control" formControlName="GTY_title" required [readonly]="isReadonly">
+                  <div class="invalid-feedback">
+                    Please enter a media title.
+                  </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="form-label">Media Description</label>
+                              <input class="form-control" type="textarea" formControlName="GTY_description" rows="4" required [readonly]="isReadonly">
+                              <div class="invalid-feedback">
+                                  Please enter a media description.
+                              </div>
+                          </div>
+                          <div class="text-center">
+                              <button type="submit" class="btn btn-primary mr-2">Save</button>
+                              <button class="btn btn-light">Cancel</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">Pages
+                        Records
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th> Pages Title </th>
+                                        <th> Pages Data </th>
+                                        <th> Action Buttons </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let pages of pagesList| filter: term|paginate : { itemsPerPage:10, currentPage:p}">
+
+                                        <!-- <td><img src="{{pages.PA_dp}}" alt=""></td> -->
+                                        <td>{{pages.PA_title}}</td>
+                                        <td>{{pages.PA_data}}</td>
+
+
+                                        <!-- <td class="d-inline-block text-truncate" style="max-width: 150px;">{{pages.DE_description}}</td> -->
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    (click)="editRecord(pages,'Edit')" placement="top" ngbTooltip="Edit"
+                                                    data-toggle="modal" data-target="#my-modal">
+                                                    <i class="ti-pencil text-white"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    (click)="editRecord(pages,'View')" placement="top" ngbTooltip="View"
+                                                    data-toggle="modal" data-target="#my-modal">
+                                                    <i class="ti-eye"></i>
+                                                </button>
+                                                <!-- <button type="button" class="btn btn-primary btn-sm" onclick="ConfirmDelete()">
+                            <i class="ti-trash"></i>
+                          </button> -->
+                                            </div>
+                                        </td>
+                                        <!-- <td>{{graphictype.GTY_title}}</td>
+                                      <td>{{graphictype.GTY_description}}</td>     -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="p = $event"
+                                class="ml-1 text-center"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="my-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content border-0">
+                    <div class="modal-body p-0">
+                        <div class="card border-0 p-sm-3 p-2 justify-content-center">
+                            <div class="card-header float-end pb-0 bg-white border-0 ">
+                                <div class="row">
+                                    <div class="col ml-auto">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <h3 class="text-center">{{title}} Pages record</h3>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="card-body px-sm-4 mb-2 pt-1 pb-0">
+                                <form [formGroup]="PagesForm" (ngSubmit)="onSubmit()" class="forms-sample">
+                                    <div class="container text-center">
+                                        <label *ngIf="title == 'View' || title == 'Edit'" for=""><img class=""
+                                                style="border-radius: 200%; width: 150px;" src="{{page_dp}}"
+                                                alt=""></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <span *ngIf="!(title == 'View')" class="input-group mb-3">
+                                            <label for="">Dp
+                                            </label><br>
+                                            <input class="form-control form-control-sm" type="file" id="img" name="img"
+                                                accept="image/*"
+                                                (change)="onimageSelected($event);getuploadDp(selectedRecord)">
+                                            <div *ngIf="imagedp==null; else elseblock">
+                                                <img src="\assets\images\images.png" class="rounded"
+                                                    style="height: 150px; width: 150px;" alt="dp">
+                                            </div>
+                                            <ng-template #elseblock><img src="{{imagedp}}" class="rounded"
+                                                    style="height: 150px; width: 150px;" alt="dp"></ng-template>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Pages id</label>
+                                        <input type="hidden" class="form-control form-control-sm"
+                                            formControlName="PA_id" readonly>
+                                        <div class="invalid-feedback">
+                                            Please enter a Pages id.
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Pages title</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                            formControlName="PA_title" required [readonly]="isReadonly">
+                                        <div class="invalid-feedback">
+                                            Please enter a Pages title.
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Pages type</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                            formControlName="PA_type" required [readonly]="isReadonly">
+                                        <div class="invalid-feedback">
+                                            Please enter a Pages title.
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Pages data</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                            formControlName="PA_data" required [readonly]="isReadonly">
+                                        <div class="invalid-feedback">
+                                            Please enter a Pages title.
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Pages Discription</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                            formControlName="PA_description" required [readonly]="isReadonly">
+                                        <div class="invalid-feedback">
+                                            Please enter a Pages discription.
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" *ngIf="!isReadonly"
+                                            class="btn btn-primary mr-2">Save</button>
+                                        <button class="btn btn-light" data-dismiss="modal"
+                                            aria-label="Close">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-sidebar>

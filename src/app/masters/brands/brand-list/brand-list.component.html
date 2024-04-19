@@ -1,0 +1,136 @@
+<app-sidebar>
+    <div class="content-wrapper">
+        <div class="row mb-4 mx-auto">
+            <div class="mr-5">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item active" aria-current="page">Approval</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div>
+                <a [routerLink]="['../brands']">
+                    <input type="button" class="btn btn-primary shadow-sm" value="Add Brand">
+                </a>
+            </div>
+
+            <div class="input-group col-lg-4 mx-5 mb-3">
+                <input type="text" [(ngModel)]="term" class="form-control shadow-sm rounded-start" placeholder="Search now" aria-label="Search now" aria-describedby="basic-addon2">
+                <span class="input-group-text bg-primary shadow-sm rounded-end" id="basic-addon2"><i class="icon-search text-white"></i></span>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">Brands</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+<!--                                         <th> Brand Logo </th>
+ -->                                        <th> Answer Name </th>
+                                        <th> Description </th>
+                                        <th> Slug </th>
+                                        <th> Action Buttons </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="pointer" *ngFor="let brand of brandList| filter: term|paginate : { itemsPerPage:10, currentPage:p}" 
+                                        routerLink="/masters/model-list" [queryParams]="{brandId:brand.AN_id}">
+
+<!--                                         <td> <img src="{{logoSrc+brand.BR_logo}}" alt="image" style="width: 100px;height: auto;" /></td>
+ -->                                        <td> {{brand.AN_title}}</td>
+                                        <td class="d-inline-block text-truncate" style="max-width: 150px;"> {{brand.AN_description}}</td>
+                                        <td> {{brand.AN_recordLink}}</td>
+                                        <!-- <td> {{brand.BR_createdAt| date }} </td>
+                                    <td> {{brand.BR_updatedAt| date }}</td> -->
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    [routerLink]="['../brands']" [queryParams]="{id:brand.AN_id}"
+                                                    placement="top" ngbTooltip="Edit">
+                                                    <i class="ti-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    [routerLink]="['../brands']"
+                                                    [queryParams]="{id:brand.BR_id,view:true }" placement="top" ngbTooltip="View">
+                                                    <i class="ti-eye"></i>
+                                                </button>
+                                                <!-- <button type="button" class="btn btn-primary btn-sm"
+                                                     data-record-id="54" data-record-title="Something cool" data-toggle="modal" data-target="#confirm-delete">
+                                                    <i class="ti-trash"></i>
+                                                </button> -->
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="p = $event" class="ml-1 text-center"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="conitener">
+        <div class="row">
+            <div class="card-group mx-auto">
+                <div class="row">
+                <div class="card col-lg-2">
+                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/hyundai.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h6 class="card-title text-center">Hyundai</h6>
+                  </div>
+                </div>
+                <div class="card col-lg-2">
+                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/kia.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h6 class="card-title text-center">KIA</h6>
+                  </div>
+                </div>
+                <div class="card col-lg-2">
+                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/maruti-suzuki.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h6 class="card-title text-center">Maruti Suzuki</h6>
+                  </div>
+                </div>
+                <div class="card col-lg-2">
+                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/tata.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h6 class="card-title text-center">TATA</h6>
+                  </div>
+                </div>
+                <div class="card col-lg-2">
+                    <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/volkswagen.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                    <div class="card-body">
+                      <span class="text-sm text-center">Volkswagen</span>
+                    </div>
+                </div>
+                </div>
+              </div>
+        </div>
+        </div>
+ -->        <!-- <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header text-center">
+                  <h4 class="text-center " id="myModalLabel"><img src="/assets/images/alert.png" class="text-center mr-5" height="50px" weight="50px"><b class="ml-5">Confirm Delete</b></h4>
+                  <button type="button" class="close float-end" data-dismiss="modal" aria-hidden="true">×</button>
+                </div> 
+                <div class="modal-body">
+                  <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                  <p>Do you want to proceed?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-danger btn-ok">Delete</button>
+                </div>
+              </div>
+            </div>
+        </div> -->
+    </div>
+</app-sidebar>

@@ -1,0 +1,271 @@
+<app-sidebar>
+  <div class="content-wrapper">
+    <div class="row mb-4 mx-2">
+      <!-- <div class="mr-5">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">RTO</li>
+          </ol>
+        </nav>
+      </div> -->
+
+      <a [routerLink]="[]">
+        <input type="button" class="btn btn-primary shadow-sm" value="Add RTO" (click)="addRecord()">
+      </a>
+
+      <div class="input-group col-lg-4 mx-5 mb-3">
+        <input type="text" [(ngModel)]="term" class="form-control shadow-sm rounded-start" placeholder="Search now" aria-label="Search now" aria-describedby="basic-addon2">
+        <span class="input-group-text bg-primary shadow-sm rounded-end" id="basic-addon2"><i class="icon-search text-white"></i></span>
+      </div>
+    </div>
+    <div *ngIf="showForm" class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">{{title}} RTO Details (Amount in %)</div>
+          <div class="card-body">
+            <form [formGroup]="rtoForm" (ngSubmit)="onSubmit()" class="forms-sample">
+              <div class="row">
+              <div class="form-group col-lg-3">
+                <label for="">State Name</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_name" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state name.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Petrolt1</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_petrolt1" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state petrolt1.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Petrolt2</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_petrolt2" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state petrolt2.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Petrolt3</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_petrolt3" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state petrolt3.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Dieselt1</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_dieselt1" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state dieselt1.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Dieselt2</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_dieselt2" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state dieselt2.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Dieselt3</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_dieselt3" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state dieselt3.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State CNGt1</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_cngt1" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state CNGt1.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State CNGt2</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_cngt2" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state CNGt2.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State CNGt3</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_cngt3" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state CNGt3.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Company</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_companyt1" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state company.
+                </div>
+              </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary mr-2" *ngIf="!isReadonly">Save</button>
+                <button class="btn btn-light" (click)="showForm=false">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="!showForm">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">RTO Details</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead>
+                  <tr>
+                    <th>
+                      States
+                    </th>
+                    <th >
+                      Petrol<br> (10< Lakhs)
+                    </th>
+                    <th >
+                      Petrol<br> (10 to 20 Lakhs)
+                    </th>
+                    <th >
+                      Petrol<br> (20> Lakhs)
+                    </th>
+                    <th >
+                      Diesel<br> (10< Lakhs)
+                    </th>
+                    <th >
+                      Diesel<br> (10 to 20 Lakhs)
+                    </th>
+                    <th >
+                      Diesel<br> (20> Lakhs)
+                    </th>
+                    <th >
+                      CNG<br> (10< Lakhs)
+                    </th>
+                    <th >
+                      CNG<br> (10 to 20 Lakhs)
+                    </th>
+                    <th >
+                      CNG<br> (20> Lakhs)
+                    </th>
+                    <th >
+                      Company<br> Owned
+                    </th>
+                    <!-- <th>
+                      Created At
+                    </th>
+                    <th>
+                      Updated At
+                    </th> -->
+                    <th > 
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let rto of rtoList|filter: term|paginate : { itemsPerPage:10, currentPage:p}">
+
+                    <td >{{rto.STA_name}}</td>
+                    <td >{{rto.STA_petrolt1}}</td>
+                    <td >{{rto.STA_petrolt2}}</td>
+                    <td >{{rto.STA_petrolt3}}</td>
+                    <td >{{rto.STA_dieselt1}}</td>
+                    <td >{{rto.STA_dieselt2}}</td>
+                    <td >{{rto.STA_dieselt3}}</td>
+                    <td >{{rto.STA_cngt1}}</td>
+                    <td >{{rto.STA_cngt2}}</td>
+                    <td >{{rto.STA_cngt3}}</td>
+                    <td >{{rto.STA_companyt1}}</td>
+                    <td>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary btn-sm" (click)="editRecord(rto,'Edit')" placement="top" ngbTooltip="Edit">
+                            <i class="ti-pencil text-white"></i>
+                          
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm"
+                        (click)="editRecord(rto,'View')" placement="top" ngbTooltip="View">
+                          <i class="ti-eye"></i>
+                        </button>
+                        <!-- <button type="button" class="btn btn-primary btn-sm" onclick="ConfirmDelete()">
+                          <i class="ti-trash"></i>
+                        </button> -->
+                      </div>
+                    </td>
+                    
+                   <!--  <td>{{rto.STA_createdAt | date }}</td>
+                    <td>{{rto.STA_updatedAt | date}}</td>   -->
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="p = $event" class="ml-1 text-center"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-sidebar>
+  <!--   <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Edit RTO</h4>
+            <form class="" action="">
+              <div class="form-group">
+                <label for="">State Name</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State Petrolt1</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State Petrolt2</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State Petrolt3</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State Dieselt1</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State Dieselt2</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State Dieselt3</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State CNGt1</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State CNGt2</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State CNGt3</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="form-group">
+                <label for="">State Company</label>
+                <input type="text" class="form-control" id="brand">
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary mr-2">Save</button>
+                <button class="btn btn-light">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-sidebar> -->

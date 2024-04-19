@@ -1,0 +1,337 @@
+<app-sidebar>
+  <div class="content-wrapper">
+    <div class="row mb-4 mx-2">
+      <a>
+        <input type="button" class="btn btn-primary shadow-sm" value="Add Role" (click)="addRecord()">
+      </a>
+
+      <div class="input-group col-lg-4 mx-5 mb-3">
+        <input type="text" [(ngModel)]="term" class="form-control shadow-sm rounded-start" placeholder="Search now"
+          aria-label="Search now">
+        <span class="input-group-text bg-primary shadow-sm rounded-end"><i class="icon-search text-white"></i></span>
+      </div>
+    </div>
+
+    <div *ngIf="showForm" class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">{{title}}
+            Role</div>
+          <div class="card-body">
+            <form [formGroup]="roleForm" (ngSubmit)="onSubmit()" class="forms-sample">
+              <div class="row">
+                <div class="form-group col-lg-6">
+                  <label for="">Role Title</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="RO_title" required [readonly]="isReadonly">
+                  <div class="invalid-feedback">
+                    Please enter a role title.
+                  </div>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="">Role Description</label>
+                  <input type="textarea" class="form-control form-control-sm" formControlName="RO_description" required
+                    [readonly]="isReadonly">
+                  <div class="invalid-feedback">
+                    Please enter a role description.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-lg-6">
+                  <!-- <label for="">Role Is Active</label>
+                  <input type="textarea" class="form-control" formControlName="RO_isActive" required
+                    [readonly]="isReadonly"> -->
+                  <label for="exampleSelectGender">Is Featured</label>
+                  <select class="form-control form-control-sm" formControlName="RO_isActive" [attr.disabled]="isReadonly ? '' :null" required>
+                    <option value=1>Yes</option>
+                    <option value=0>No</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please confirm role is Active or Not.
+                  </div>
+                </div>
+                <!--  -->
+                
+                <!--  -->
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="">Pages</label>
+                  <div class="form-check ml-4 mt-0" *ngFor="let access of AccessList">
+                    <input type="checkbox" class="form-check-input" id="{{access.AC_id}}" [(ngModel)]="access.checked" value="{{access.AC_id}}" required [readonly]="isReadonly"
+                       [ngModelOptions]="{standalone: true}">
+                    <label class="form-check-label " for="">{{access.AC_title}}</label>
+                  </div>
+
+                  <!-- <label formArrayName="roleAccess" *ngFor="let access of roleAccessFormArray.controls; let i = index">
+                    <input type="checkbox" [formControlName]="i">
+                    {{AccessList[i].AC_title}}
+                  </label> -->
+                </div>  
+              </div>
+              <!-- <div class="form-group">
+                                <label for="">Role Access</label>
+                                <div class="row my-3">
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">1</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                            <label class="custom-control-label" for="customCheck2">2</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                            <label class="custom-control-label" for="customCheck3">3</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                            <label class="custom-control-label" for="customCheck4">4</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter a role access.
+                                </div>
+                            </div> -->
+              <div class="text-center">
+                <button *ngIf="!isReadonly" type="submit" class="btn btn-primary mr-2">Save</button>
+                <button class="btn btn-light" (click)="showForm=false">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="!showForm">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">Role</div>
+          <div class="card-body">
+            <!-- <h4 class="card-title">Role</h4> -->
+            <div class="table-responsive">
+              <table class="table table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th>
+                      Role Title
+                    </th>
+                    <th>
+                      Role Description
+                    </th>
+                    <!-- <th>
+                                            Role Access
+                                        </th> -->
+                    <th>
+                      Is Active
+                    </th>
+                    <!-- <th>
+                                            Created At
+                                        </th>
+                                        <th>
+                                            Updated At
+                                        </th>-->
+                    <th class="align-items-end">
+                      Action Buttons
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <!-- <td class="py-1">
+                                            Admin
+                                        </td>
+                                        <td>
+                                            All access is given.
+                                        </td>
+                                        <td>
+                                            2,3,4
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-primary btn-fw">No</button>
+                                        </td>
+                                        <td>
+                                            29-08-2022
+                                        </td>
+                                        <td>
+                                            05-09-2022
+                                        </td> -->
+                  <tr *ngFor="let role of roleList| filter: term|paginate : { itemsPerPage:10, currentPage:p}">
+
+                    <td>{{role.RO_title}}</td>
+                    <td class="d-inline-block text-truncate" style="max-width: 150px;">{{role.RO_description}}</td>
+                    <td><span
+                        class="badge badge-pill badge-{{role.RO_isActive? 'success':'danger'}}">{{role.RO_isActive?
+                        'Yes':'No'}} </span></td>
+                    <td>
+                      <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary btn-sm" (click)="editRecord(role,'Edit')"
+                          placement="top" ngbTooltip="Edit">
+
+                          <i class="ti-pencil text-white" aria-hidden="true"></i>
+
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm" (click)="editRecord(role,'View')"
+                          placement="top" ngbTooltip="View">
+                          <i class="ti-eye"></i>
+                        </button>
+                        <!-- <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="ConfirmDelete()">
+                                                    <i class="ti-trash"></i>
+                                                </button> -->
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="p = $event" class="ml-1 text-center">
+              </pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--  <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Add New Role</h4>
+                        <form class="needs-validation" action="" novalidate>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="">Role Title</label>
+                                    <input type="text" class="form-control" id="" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a role title.
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="">Role Description</label>
+                                    <input type="textarea" class="form-control" id="" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a role description.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Role Access</label>
+                                <div class="row my-3">
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">1</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                            <label class="custom-control-label" for="customCheck2">2</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                            <label class="custom-control-label" for="customCheck3">3</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                            <label class="custom-control-label" for="customCheck4">4</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter a role access.
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary mr-2">Save</button>
+                                <button class="btn btn-light">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Edit Role</h4>
+                        <form class="" action="">
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="">Role Title</label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="">Role Description</label>
+                                    <input type="textarea" class="form-control" id="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Role Access</label>
+                                <div class="row my-3">
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                            <label class="custom-control-label" for="customCheck5">1</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck6">
+                                            <label class="custom-control-label" for="customCheck6">2</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck7">
+                                            <label class="custom-control-label" for="customCheck7">3</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="custom-control custom-checkbox ">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck8">
+                                            <label class="custom-control-label" for="customCheck8">4</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="">Is Active :</label>
+                                <br>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <label class="custom-control-label mr-5">No</label>
+                                    <input type="radio" class="form-check-input custom-control-input" name="radio"
+                                        id="radio1" value="option1">
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <label class="custom-control-label">Yes</label>
+                                    <input type="radio" class="form-check-input custom-control-input" name="radio"
+                                        id="radio2" value="option2">
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary mr-2">Save</button>
+                                <button class="btn btn-light">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-sidebar> -->

@@ -1,0 +1,91 @@
+<app-sidebar>
+  <div class="content-wrapper">
+    <div class="row mb-4 mx-2">
+      <div class="mr-5">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item pointer" aria-current="page" routerLink="/masters/brand-list" >Brands</li>
+            <li class="breadcrumb-item active" aria-current="page">Model</li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="">
+        <a [routerLink]="['../models']">
+          <input type="button" class="btn btn-primary shadow-sm" value="Add Model">
+        </a>
+      </div>
+
+      <div class="input-group col-lg-4 mx-5 mb-3">
+        <input type="text" [(ngModel)]="term" class="form-control shadow-sm rounded-start" placeholder="Search now" aria-label="Search now"
+          aria-describedby="basic-addon2">
+        <span class="input-group-text bg-primary shadow-sm rounded-end" id="basic-addon2"><i
+            class="icon-search text-white"></i></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">Models</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th>Brand</th>
+                    <th> Model Title </th>
+                    <th> Model Type </th>
+                    <th> Is Discontinued </th>
+                    <th> Slug </th>
+                    <th> Action Buttons </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="pointer" *ngFor="let Model of ModelList| filter: term|paginate : { itemsPerPage:10, currentPage:p}"
+                    routerLink="/masters/car-list" [queryParams]="{modelId:Model.MO_id}">
+                    <td> <img src="{{logoSrc+Model.BR_logo}}" alt="image" style="width: 100px;height: auto;" />
+                    </td>
+                    <!-- <img [src]="brand.BR_logo" alt="image"/> -->
+                    <td><b>{{Model.BR_title}}</b> {{Model.MO_title}}</td>
+                    <td>{{Model.MT_title}}</td>
+                    <td><span
+                        class="badge badge-pill badge-{{Model.MO_isdiscontinued? 'success':'danger'}}">{{Model.MO_isdiscontinued?
+                        'No':'Yes'}}</span></td>
+                        <td>{{Model.MO_slug}}</td>
+                    <td>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary btn-sm" [routerLink]="['../models']"
+                          [queryParams]="{id:Model.MO_id }" placement="top" ngbTooltip="Edit">
+                          <i class="ti-pencil"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm" [routerLink]="['../models']"
+                          [queryParams]="{id:Model.MO_id,view:true }" placement="top" ngbTooltip="View">
+                          <i class="ti-eye"></i>
+                        </button>
+                        <!-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                          data-target="#my-modal">
+                          <i class="ti-trash"></i>
+                        </button> -->
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- <tr>
+                    <td colspan="12">
+                      <div *ngIf="ModelList.length<=0" class="text-center ">
+                        <i>
+                          <h5>Data Not Available Yet.</h5>
+                        </i>
+                      </div>
+                    </td>
+                  </tr> -->
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="p = $event" class="ml-1 text-center"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-sidebar>

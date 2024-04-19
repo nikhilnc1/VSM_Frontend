@@ -1,0 +1,107 @@
+<app-sidebar>
+    <div class="content-wrapper">
+        <div class="row mb-4 mx-2">
+          <div class="mr-5">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item pointer" aria-current="page" routerLink="/masters/brand-list" >Brands</li>
+                  <li class="breadcrumb-item pointer" aria-current="page" routerLink="/masters/model-list" >Models</li>
+                  <li class="breadcrumb-item active" aria-current="page">Variant</li>
+                </ol>
+            </nav>
+          </div>
+
+          <div>
+            <a [routerLink]="['../cars']">
+              <input type="button" class="btn btn-primary shadow-sm" value="Add Variant">
+            </a>
+          </div>
+
+          <div class="input-group col-lg-4 mx-5 mb-3">
+            <input type="text" [(ngModel)]="term" class="form-control rounded-start" placeholder="Search now" aria-label="Search now" aria-describedby="basic-addon2">
+            <span class="input-group-text bg-primary rounded-end" id="basic-addon2"><i class="icon-search text-white"></i></span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">Variant</div>
+                <div class="card-body">
+                      <!-- <p class="card-description">
+                          Add class <code>.table-striped</code>
+                      </p> -->
+                  <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                      <thead>
+                        <tr>
+                        <th> Model </th>
+                        <th> Variant Name </th>
+                        <th> Ex-Showroom price </th>
+                        <th> Enginee cc </th>
+                        <th> Fuel </th>
+                        <th> Is-Discontinued </th>
+                        <th> Slug </th>
+                        <!-- <th> createdAt </th>
+                        <th> updatedAt </th> -->                        <th> Action Buttons </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let car of CarList| filter: term|paginate : { itemsPerPage:10, currentPage:p}" > 
+                             
+                            <td><B>{{car.BR_title}}</B> {{car.MO_title}}</td>
+                            <td> {{car.CA_variant}}</td>
+                            <td> {{car.CA_exshowroomprice}} </td>
+                            <td> {{car.CA_enginecc}}</td>
+                            <td> {{car.CA_fuel}}</td>
+<!--                             <td> {{car.CA_isDiscontinued}}</td>
+ -->
+                            <td><span class="badge badge-pill badge-{{car.CA_isDiscontinued? 'success':'danger'}}">{{car.CA_isDiscontinued? 'No':'Yes'}}</span></td>
+                           <!--  <td> {{car.CA_createdAt| date }} </td>
+                            <td> {{car.CA_updatedAt| date }}</td> -->
+                            <td> {{car.CA_slug}}</td>  
+                             <td>
+                              
+                                <div class="btn-group " role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-primary btn-sm" 
+                                        [routerLink]="['../cars']" [queryParams]="{id:car.CA_id }" >
+                                        <i class="ti-pencil" placement="top" ngbTooltip="Edit"></i> 
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                        [routerLink]="['../cars']" [queryParams]="{id:car.CA_id,view:true}" >
+                                    <i class="ti-eye" placement="top" ngbTooltip="View"></i>
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#my-modal">
+                                        <i class="ti-trash"></i>
+                                    </button> -->
+                                </div>
+                            </td>                        
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="p = $event" class="ml-1 text-center"></pagination-controls>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- <div id="my-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content border-0">   
+          <div class="modal-body p-0">
+              <div class="card border-0 p-sm-3 p-2 justify-content-center">
+                  <div class="card-header float-end pb-0 bg-white border-0 "><div class="row"><div class="col ml-auto"><button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button></div> </div>
+                  <h3 class="text-center">Confirm Delete</h3>
+                  <br>
+                  <p class="font-weight-bold mb-2 text-center"><b> Are you shure to delete this ?</b></p>     </div>
+                  <br>
+                  <div class="card-body px-sm-4 mb-2 pt-1 pb-0"> 
+                      <div class="row justify-content-center no-gutters"><div class="col-auto"><button type="button" class="btn btn-primary mx-3 text-white" data-dismiss="modal">Cancel</button></div><div class="col-auto"><button type="button" class="btn btn-danger px-4" data-dismiss="modal">Delete</button></div></div>
+                  </div>
+              </div>  
+          </div>
+      </div>
+  </div>
+</div> -->
+</div>
+</app-sidebar>

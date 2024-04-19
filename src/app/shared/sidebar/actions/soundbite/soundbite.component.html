@@ -1,0 +1,483 @@
+<app-sidebar>
+  <div class="content-wrapper">
+    <div class="row mb-4 mx-auto">
+      <div class="mr-5">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">All soundbites</li>
+          </ol>
+        </nav>
+      </div>
+       <div class="input-group col-lg-4 mx-5 mb-3">
+        <input type="text" [(ngModel)]="term" class="form-control shadow-sm rounded-start" placeholder="Search now"
+          aria-label="Search now" aria-describedby="basic-addon2">
+        <span class="input-group-text bg-primary shadow-sm rounded-end" style="height: 46px !important;" id="basic-addon2"><i
+            class="icon-search text-white"></i></span>
+            </div>
+            <div class="input-group col-lg-4 mx-5 mb-3">
+            <label for="selectStatus"> Status </label><br><br>&nbsp;&nbsp;
+        <select class="custom-select mb-3" id="selectStatus"  (change)="selected($event)" style="height: 46px !important;">
+          <option  value="All" class="badge" selected>All status</option>
+           <option value="0"  class="badge ">Draft</option>
+          <option value="1"  class="badge ">Pending</option>
+          <option value="2" class="badge ">Approve</option>
+          <option value="3" class="badge ">Reject</option>
+        </select>
+      </div>
+      <!-- <div>
+                <a [routerLink]="['../brands']">
+                    <input type="button" class="btn btn-primary shadow-sm" value="Add SoundBite">
+                </a>
+            </div> -->
+
+      <!-- <div class="input-group col-lg-4 mx-5 mb-3">
+                <input type="text" class="form-control shadow-sm rounded-start" placeholder="Search now" aria-label="Search now" aria-describedby="basic-addon2">
+                <span class="input-group-text bg-primary shadow-sm rounded-end" id="basic-addon2"><i class="icon-search text-white"></i></span>
+            </div> -->
+    </div>
+
+    <div *ngIf="showForm" class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0"> SoundBite
+            Details</div>
+          <div class="card-body">
+            <form [formGroup]="soundForm" class="forms-sample">
+              <div class="row">
+                <div class="form-group col-lg-4">
+                  <label for="">Title</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="AN_title" required
+                    [readonly]="isReadonly">
+                </div>
+                <div class="form-group col-lg-4">
+                  <label for="">User</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="AN_updatedBy" required
+                    [readonly]="isReadonly">
+                </div>
+                <div class="form-group col-lg-4">
+                  <label for="" >Published On</label>
+                  <input type="text" class="form-control form-control-sm" formControlName="AN_updatedAt" [readonly]=true>
+                </div>
+                <div class="form-group col-lg-4">
+                  <label for="">Degree Name
+                  </label>
+                  <select class="form-control form-control-sm">
+                    <option *ngFor="let degree of DegreeList" [value]="degree.DE_id">
+                      {{degree.DE_title}}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-4">
+                  <label for="">Description
+                  </label>
+                  <input type="text" class="form-control form-control-sm" formControlName="AN_description" required
+                    [readonly]="isReadonly">
+                </div>
+
+                <div class="form-group col-lg-4">
+                  <label for="">Industry Name
+                  </label>
+                  <select class="form-control form-control-sm" required formControlName="AN_industryId">
+                    <option *ngFor="let ind of industryList" [value]="ind.IN_id">
+                      {{ind.IN_name}}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-4">
+                  <label for="">KeyIdeas
+                  </label>
+                  <input type="text" class="form-control form-control-sm" formControlName="AN_keyIdeas" required
+                    [readonly]="isReadonly">
+                </div>
+                <div class="form-group col-lg-4">
+                  <label for="">QuestionId
+                  </label>
+                  <input type="text" class="form-control form-control-sm" formControlName="AN_questionId" required
+                    [readonly]="isReadonly">
+                </div>
+                <div class="form-group col-lg-4">
+                  <label for="">Sound Bite Link</label><br>
+                  <input type="hidden" class="form-control form-control-sm" formControlName="AN_recordLink" required
+                    [readonly]="isReadonly">
+                  <audio controls>
+                    <source src="{{selectsoundurl}}" type="audio/ogg">
+                    <source src="{{selectsoundurl}}" type="audio/mpeg">
+                  </audio><br>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="">Tags
+                  </label>
+                  <input type="text" #box (blur)="getvalue(box.value)" class="form-control form-control-sm"  [value]="Tagtitle">
+                  <button type="submit" class="btn btn-primary mr-2 mt-2"
+                    (click)="updateAllData(selectedRecord)">Save</button>
+                </div>
+                <!-- <div class="form-group col-lg-4">
+                  <label for="">Sound Bite Link</label><br>
+                  <input type="hidden" class="form-control form-control-sm" formControlName="AN_recordLink" required
+                    [readonly]="isReadonly">
+                  <audio controls>
+                    <source src="{{selectsoundurl}}" type="audio/ogg">
+                    <source src="{{selectsoundurl}}" type="audio/mpeg">
+                  </audio><br>
+                </div> -->
+                <div class="form-group col-lg-6">
+                  <b> <label>Upload New Soundlinkurl </label></b>&nbsp;(Select file before upload)<br>
+                  <input class="form-control form-control-sm" type="file" id="audio" name="audio" accept="audio/*"
+                    (change)="onFileSelected($event);getuploadlink(selectedRecord)">
+                  
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="">Dp
+                  </label><br>
+                  <input class="form-control form-control-sm" type="file" id="img" name="img" accept="image/*"
+                    (change)="onimageSelected($event);getuploadDp(selectedRecord)">
+                  <div *ngIf="imagedp==null; else elseblock">
+                    <img src="\assets\images\images.png" class="rounded" style="height: 150px; width: 150px;" alt="dp">
+                  </div>
+                  <ng-template #elseblock><img
+                      src="{{imagedp}}" class="rounded"
+                      style="height: 150px; width: 150px;" alt="dp"></ng-template>
+                </div>
+                <!-- <div class="form-group col-lg-6">
+                                <label for="">Dp
+                                </label>
+                                <div *ngIf=" imagedp==null; else elseblock">
+                                  <img src=".\assets\images\DP image.png" class="rounded" style="height: 150px; width: 150px;" alt="dp">
+                                </div>
+                                  <ng-template #elseblock> <img src="{{imagedp}}" class="rounded" style="height: 150px; width: 150px;" alt="dp"></ng-template>
+                                </div> -->
+                <!-- <div class="form-group col-lg-3">
+                <label for="">State Petrolt1</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_petrolt1" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state petrolt1.
+                </div>
+              </div> -->
+                <!-- <div class="form-group col-lg-3">
+                <label for="">State Petrolt2</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_petrolt2" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state petrolt2.
+                </div>
+              </div> -->
+                <!-- <div class="form-group col-lg-3">
+                <label for="">State Petrolt3</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_petrolt3" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state petrolt3.
+                </div>
+              </div> -->
+                <!-- <div class="form-group col-lg-3">
+                <label for="">Sharer Name</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_dieselt1" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state dieselt1.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Dieselt2</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_dieselt2" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state dieselt2.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Dieselt3</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_dieselt3" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state dieselt3.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State CNGt1</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_cngt1" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state CNGt1.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">Date</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_cngt2" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state CNGt2.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State CNGt3</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_cngt3" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state CNGt3.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Company</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_companyt1" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state company.
+                </div>
+              </div>
+              <div class="form-group col-lg-3">
+                <label for="">State Company</label>
+                <input type="text" class="form-control form-control-sm" formControlName="STA_companyt1" required [readonly]="isReadonly">
+                <div class="invalid-feedback">
+                  Please enter a state company.
+                </div>
+              </div>
+              </div>-->
+                <!-- <div class="row">
+                <div class="form-group col-lg-3">
+                  <label for="">Title</label>
+                  <input type="text" class="form-control form-control-sm">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-3">
+                  <label for="">Sharer Name</label>
+                  <input type="text" class="form-control form-control-sm" Value="Sharer Name">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-3">
+                  <label for="">Date</label>
+                  <input type="text" class="form-control form-control-sm" Value="Date">
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-3">
+                  <label for="">Discription</label>
+                  <input type="text" class="form-control form-control-sm" Value="Discription">
+
+                </div>
+              </div> -->
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-success" (click)="updateStatus(selectedRecord,2)">Approve</button>&nbsp;
+                <button type="submit" class="btn btn-danger"  data-toggle="modal" data-target="#myModal" >Reject</button>&nbsp;
+                <button class="btn btn-secondary" (click)="showForm=false">Cancel</button>
+              </div>
+              <!--Modal Launch Button-->
+<!-- <button type="button" class="btn btn-info btn-lg openmodal" data-toggle="modal" data-target="#myModal">Open
+  Modal</button> -->
+
+<!--Division for Modal-->
+<div id="myModal" class="modal fade" role="dialog">
+
+  <!--Modal-->
+  <div class="modal-dialog">
+
+    <!--Modal Content-->
+    <div class="modal-content">
+
+      <!-- Modal Header-->
+      <div class="modal-header">
+        <h3>Reason For Rejection</h3>
+
+        <!--Close/Cross Button-->
+        <button type="button" class="close" data-dismiss="modal" style="color: white;">&times;</button>
+      </div>
+
+      <!-- Modal Body-->
+      <div class="modal-body text-center">
+        <i class="far fa-file-alt fa-4x mb-3 animated rotateIn icon1"></i>
+        <strong>Please Kindly Give Your Reason.</strong>
+        <hr>
+      </div>
+
+      <!-- Radio Buttons for Rating-->
+      <div class="form-check mb-4">
+        <input name="feedback" type="radio" value="It's irrelevant" (change)="radiovalue($event)">
+        <label class="ml-3">It's irrelevant</label>
+      </div>
+      <div class="form-check mb-4">
+        <input name="feedback" type="radio" value="It's not right" (change)="radiovalue($event)">
+        <label class="ml-3">It's not right</label>
+      </div>
+      <div class="form-check mb-4">
+        <input name="feedback" type="radio" value="its inappropriate" (change)="radiovalue($event)">
+        <label class="ml-3">its inappropriate</label>
+      </div>
+      <div class="form-check mb-4">
+        <input name="feedback" type="radio" (click)="showbox()" value="Other reason is" (change)="radiovalue($event)">
+        <label class="ml-3">Other</label>
+      </div>
+      <div *ngIf="showhide" class="mx-4">
+        <textarea type="textarea" class="form-control" placeholder="Other reason" #box (input)="getval(box.value)" rows="4"></textarea>
+      </div>
+      <!-- <div class="form-check mb-4">
+        <input name="feedback" type="radio">
+        <label class="ml-3">Good</label>
+      </div> -->
+      <!-- <div class="form-check mb-4">
+        <input name="feedback" type="radio">
+        <label class="ml-3">Mediocre</label>
+      </div>
+      <div class="form-check mb-4">
+        <input name="feedback" type="radio">
+        <label class="ml-3">Bad</label>
+      </div>
+      <div class="form-check mb-4">
+        <input name="feedback" type="radio">
+        <label class="ml-3">Very Bad</label>
+      </div> -->
+
+      <!--Text Message-->
+      <!-- <div style="margin-left: 20px;">
+        <button type="submit" (click)="showbox()" >Other</button>
+      </div> -->
+      
+
+      <!-- Modal Footer-->
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="left" data-dismiss="modal" (click)="updateStatus(selectedRecord,3);updatedReason()">Confirm
+        </button>
+        <button  class="btn btn-primary" id="right" data-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+              <!-- <div class="form-group col-lg-3">
+                <button type="submit" class="btn btn-primary mr-2">Save</button>
+              </div>
+              <div class="form-group col-lg-3">
+                <button class="btn btn-primary mr-2" (click)="showForm=false">Cancel</button>
+              </div> -->
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="!showForm">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">All SoundBites</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th> Title </th>
+                    <th> Sharer Name </th>
+                    <th> Date </th>
+                    <th> Status </th>
+                    <th> Action </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sound of soundList|filter: term |paginate : { itemsPerPage:10, currentPage:p}">
+                    <td>{{sound?.AN_title}}</td>
+                    <!--                                         <td> <img src="{{logoSrc+brand.BR_logo}}" alt="image" style="width: 100px;height: auto;" /></td>
+ -->
+                    <td>{{sound?.AN_updatedBy}}</td>
+
+                    <td>{{sound?.AN_updatedAt}}</td>
+                    <!-- <td>{{sound?.AN_status}}</td> -->
+                    <!-- <td><some-element></some-element></td> -->
+                    <td><span *ngIf="sound.AN_status==0" class="badge badge-pill badge-secondary"> Draft</span>
+                      <span *ngIf="sound.AN_status==1" class="badge badge-pill bg-warning text-dark"> Pending</span>
+                      <span *ngIf="sound.AN_status==2" class="badge badge-pill badge-success"> Approve</span>
+                      <span *ngIf="sound.AN_status==3" class="badge badge-pill badge-danger"> Reject</span>
+                    </td>
+                   <!-- <div *ngIf="this.filtervalue==0"> 
+                   <td> <span *ngIf="sound.AN_status==0" class="badge badge-pill badge-secondary">{{sound?.AN_status}} Draft</span></td>
+                    </div>  -->
+                  <!-- <div *ngIf="this.filtervalue==1">
+                   <td> <span *ngIf="sound.AN_status==1" class="badge badge-pill bg-warning text-dark">{{sound?.AN_status}} Pending</span></td>
+                  </div> -->
+                  <!-- <div *ngIf="this.filtervalue==2">
+                    <td> <span *ngIf="sound.AN_status==2" class="badge badge-pill badge-success">{{sound?.AN_status}} Approve</span></td>
+                    </div> -->
+                    <!-- <div *ngIf="this.filtervalue==3">
+                     <td> <span *ngIf="sound.AN_status==3" class="badge badge-pill badge-danger">{{sound?.AN_status}} Reject</span></td>
+                      </div> -->
+                    <!-- <td> {{brand.BR_createdAt| date }} </td>
+                                    <td> {{brand.BR_updatedAt| date }}</td> -->
+                    <td>
+                      <div role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary btn-sm"
+                          (click)="editRecord(sound,'edit')" placement="top" ngbTooltip="Update">
+                          <i class="ti-pencil"></i>
+                        </button>
+                        <!-- <button type="button" class="btn btn-primary btn-sm" [routerLink]=""
+                          placement="top" ngbTooltip="View" (click)="editRecord(sound,'View')">
+                          <i class="ti-eye"></i>
+                        </button> -->
+                        <!-- <button type="button" class="btn btn-primary btn-sm"
+                                                     data-record-id="54" data-record-title="Something cool" data-toggle="modal" data-target="#confirm-delete">
+                                                    <i class="ti-trash"></i>
+                                                </button> -->
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="p = $event" class="ml-1 text-center"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="conitener">
+        <div class="row">
+            <div class="card-group mx-auto">
+                <div class="row">
+                <div class="card col-lg-2">
+                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/hyundai.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h6 class="card-title text-center">Hyundai</h6>
+                  </div>
+                </div>
+                <div class="card col-lg-2">
+                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/kia.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h6 class="card-title text-center">KIA</h6>
+                  </div>
+                </div>
+                <div class="card col-lg-2">
+                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/maruti-suzuki.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h6 class="card-title text-center">Maruti Suzuki</h6>
+                  </div>
+                </div>
+                <div class="card col-lg-2">
+                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/tata.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                  <div class="card-body">
+                    <h6 class="card-title text-center">TATA</h6>
+                  </div>
+                </div>
+                <div class="card col-lg-2">
+                    <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/volkswagen.jpg" style="height:75px; width:125px;" alt="Card image cap">
+                    <div class="card-body">
+                      <span class="text-sm text-center">Volkswagen</span>
+                    </div>
+                </div>
+                </div>
+              </div>
+        </div>
+        </div>
+ --> <!-- <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header text-center">
+                  <h4 class="text-center " id="myModalLabel"><img src="/assets/images/alert.png" class="text-center mr-5" height="50px" weight="50px"><b class="ml-5">Confirm Delete</b></h4>
+                  <button type="button" class="close float-end" data-dismiss="modal" aria-hidden="true">×</button>
+                </div> 
+                <div class="modal-body">
+                  <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                  <p>Do you want to proceed?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-danger btn-ok">Delete</button>
+                </div>
+              </div>
+            </div>
+        </div> -->
+  </div>
+</app-sidebar>

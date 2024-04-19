@@ -1,0 +1,195 @@
+<app-sidebar>
+    <div class="content-wrapper">
+
+        <div class="row mb-4 mx-2">
+            <a [routerLink]="['../Users']">
+                <input type="button" class="btn btn-primary shadow-sm" value="Add User" (click)="addRecord()">
+            </a>
+
+            <div class="input-group col-lg-4 mx-5 mb-3">
+                <input type="text" [(ngModel)]="term" class="form-control shadow-sm rounded-start" placeholder="Search now" aria-label="Search now">
+                <span class="input-group-text bg-primary shadow-sm rounded-end"><i class="icon-search text-white"></i></span>
+            </div>
+        </div>
+
+        <div *ngIf="showForm" class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">{{title}} Users</div>
+                    <div class="card-body">
+                        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="forms-sample">
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="">User Name</label>
+                                    <input type="text" class="form-control form-control-sm" formControlName="US_name" required [readonly]="isReadonly">
+                                    <div class="invalid-feedback">
+                                        Please enter a user name.
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="">User Email</label>
+                                    <input type="email" class="form-control form-control-sm" formControlName="US_email" required [readonly]="isReadonly">
+                                    <div class="invalid-feedback">
+                                        Please enter a email.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="">User Phone Number</label>
+                                    <input type="tel" class="form-control form-control-sm" formControlName="US_phone" minlength="10" [readonly]="isReadonly"
+                                        maxlength="10"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        pattern=".{10,10}" required="required">
+                                    <div class="invalid-feedback">
+                                        Please enter a mobile number.
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group col-lg-6">
+                                    <label for="">User Designation</label>
+                                    <input type="text" class="form-control form-control-sm" formControlName="US_designation" required [readonly]="isReadonly">
+                                    <div class="invalid-feedback">
+                                        Please enter a designation.
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group col-lg-6" *ngIf="title=='Add new'">
+                                    <label for="">User Password</label>
+                                    <input type="text" class="form-control form-control-sm"  formControlName="US_password" required [readonly]="isReadonly">
+                                    <div class="invalid-feedback">
+                                        Please enter a Password
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-6">
+                                    <label for="exampleSelectGender">Select Role</label>
+                                    <select class="form-control form-control-sm  form-select" formControlName="US_roleId" [attr.disabled]="isReadonly ? '' :null" required>
+                                        <option value="" selected>Choose Role...</option>
+                                        <option *ngFor="let role of roles" [value]="role.RO_id">{{role.RO_title}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" *ngIf="!isReadonly" class="btn btn-primary mr-2">Save</button>
+                                <button class="btn btn-light" (click)="showForm=false">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="!showForm">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">Users</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                             Name
+                                        </th>
+                                        <th>
+                                             Email
+                                        </th>
+                                        <th>
+                                             Phone
+                                        </th>
+                                        <th>
+                                             Designation
+                                        </th>
+                                        <!-- <th>
+                                            Password
+                                        </th> -->
+                                        <th>
+                                            Role 
+                                        </th>
+                                        <th>
+                                            Action Buttons
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let user of usersList| filter: term|paginate: {itemsPerPage:10, currentPage:p}">
+                                        <td>{{user.US_name}}</td>
+                                        <td>{{user.US_email}}</td>
+                                        <td>{{user.US_phone}}</td>
+                                        <td>{{user.US_designation}}</td>
+<!--                                         <td>{{user.US_password}}</td>
+ -->                                        <td>{{user.RO_title}}</td>
+
+                                        <!-- <td class="py-1">
+                                            Omkar
+                                        </td>
+                                        <td>
+                                            omkar@gmail.com
+                                        </td>
+                                        <td>
+                                            65454655665
+                                        </td>
+                                        <td>
+                                            Master Admin
+                                        </td>
+                                        <td>
+                                            Admin
+                                        </td>
+                                        <td>
+                                            29-08-2022
+                                        </td>
+                                        <td>   //
+                                                PRYSOMS SOLUTION
+                                            //
+                                            05-09-2022
+                                        </td> -->
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    (click)="editRecord(user,'Edit')" placement="top" ngbTooltip="Edit">
+                                                    
+                                                        <i class="ti-pencil text-white"></i>
+                                                
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                (click)="editRecord(user,'View')" placement="top" ngbTooltip="View">
+                                                    <i class="ti-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-sm" placement="top" ngbTooltip="Delete" data-toggle="modal" data-target="#my-modal">
+                                                    <i class="ti-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="p = $event" class="ml-1 text-center"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="my-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content border-0">   
+                    <div class="modal-body p-0">
+                        <div class="card border-0 p-sm-3 p-2 justify-content-center">
+                            <div class="card-header float-end pb-0 bg-white border-0 "><div class="row"><div class="col ml-auto"><button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button></div> </div>
+                            <h3 class="text-center">Confirm Delete</h3>
+                            <br>
+                            <p class="font-weight-bold mb-2 text-center"><b> Are you shure to delete this ?</b></p>     </div>
+                            <br>
+                            <div class="card-body px-sm-4 mb-2 pt-1 pb-0"> 
+                                <div class="row justify-content-center no-gutters"><div class="col-auto"><button type="button" class="btn btn-primary mx-3 text-white" data-dismiss="modal">Cancel</button></div><div class="col-auto"><button type="button" class="btn btn-danger px-4" data-dismiss="modal">Delete</button></div></div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-sidebar>

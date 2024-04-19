@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+
+#toast-container>.toast-success {
+    background-color: #F5F7FF;//#4B49AC;//
+    color:black;
+}
+#toast-container >.toast-info {
+  background-color: #F5F7FF;
+  color: black;
+}
+.required-field {
+  color: red;
+  margin-left:2px
+}
+.pointer{
+  cursor: pointer;
+}
+.hideFileInput{
+  display: none;
+}

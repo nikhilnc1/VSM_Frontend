@@ -1,0 +1,48 @@
+<app-sidebar>
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-header card-title bg-primary rounded-top text-white text-center mb-0">Servicing Scheduled Vehicle List
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th> Vehicle Id </th>
+                      <th> Vehicle Name </th>
+                      <th> Vehicle Number </th>
+                      <th> Vehicle year </th>
+                      <th> Owner Name </th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- *ngFor="let vehicle of vehicleList" -->
+                    <tr >
+                      <!-- <td>{{ vehicle.id }}</td>
+                      <td>{{ vehicle.name }}</td>
+                      <td>{{ vehicle.number }}</td>
+                      <td>{{ vehicle.year }}</td>
+                      <td>{{ vehicle.owner }}</td> -->
+                      <td>Hii</td>
+                      <td>Hii</td>
+                      <td>Hii</td>
+                      <td>Hii</td>
+                      <td>Hii</td>
+                      <td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" class="btn btn-primary btn-sm" (click)="editRecord(vehicle,'Edit')" placement="top" ngbTooltip="Edit" data-toggle="modal" data-target="#my-modal">
+                            Go for Servicing
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</app-sidebar>

@@ -1,0 +1,158 @@
+<app-sidebar>
+    <div class="content-wrapper">
+        <div class="row mb-4 mx-2">
+           <!--  <div class="mr-5">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item active" aria-current="page">Category Type</li>
+                    </ol>
+                </nav>
+            </div> -->
+
+            <a [routerLink]="[]"> 
+             <input type="button" class="btn btn-primary shadow-sm" value="Add Category Type" (click)="addRecord()" data-toggle="modal"
+             data-target="#my-modal">
+            </a> 
+
+            <div class="input-group col-lg-4 mx-5 mb-3">
+                <input type="text" [(ngModel)]="term" class="form-control shadow-sm rounded-start" placeholder="Search now" aria-label="Search now" aria-describedby="basic-addon2">
+                <span class="input-group-text bg-primary shadow-sm rounded-end" id="basic-addon2"><i class="icon-search text-white"></i></span>
+            </div>
+        </div>
+        <!-- <div *ngIf="showForm" class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">{{title}} Categoty Type</div>
+                    <div class="card-body">
+                        <form [formGroup]="categorytypeForm" (ngSubmit)="onSubmit()" class="forms-sample">
+                            <div class="form-group">
+                                <label for="">Category Type Title</label>
+                                <input type="text" class="form-control" formControlName="CTY_title" required [readonly]="isReadonly">
+                                <div class="invalid-feedback">
+                                    Please enter a media title.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category Type Description</label>
+                                <input class="form-control" type="textarea" formControlName="CTY_description" rows="4"
+                                    required [readonly]="isReadonly">
+                                <div class="invalid-feedback">
+                                    Please enter a media description.
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" *ngIf="!isReadonly" class="btn btn-primary mr-2">Save</button>
+                                <button class="btn btn-light" (click)="showForm=false">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!--  -->
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">Approval</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Answer Title
+                                        </th>
+                                        <th>
+                                            RecordLink
+                                        </th>
+                                        <!-- <th>
+                                            Created At
+                                        </th>
+                                        <th>
+                                            Updated At
+                                        </th> -->
+                                        <th>
+                                            Action Buttons
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr *ngFor="let categorytype of categorytypeList|filter: term|paginate : { itemsPerPage:10, currentPage:p}">
+
+                                        <td>{{categorytype.AN_title}}</td>
+                                        <td class="d-inline-block text-truncate" style="max-width: 150px;">{{categorytype.AN_recordLink}}</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" class="btn btn-primary btn-sm" (click)="editRecord(categorytype,'Edit')" placement="top" ngbTooltip="Edit" data-toggle="modal" data-target="#my-modal">
+                                                        <i class="ti-pencil text-white"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                (click)="editRecord(categorytype,'View')" placement="top" ngbTooltip="View" data-toggle="modal" data-target="#my-modal">
+                                                    <i class="ti-eye"></i>
+                                                </button>
+                                                <!-- <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="ConfirmDelete()">
+                                                    <i class="ti-trash"></i>
+                                                </button> -->
+                                            </div>
+                                        </td>
+                                       <!--  </td>
+                                        <td>{{categorytype.CTY_title}}</td>
+                                        <td>{{categorytype.CTY_description}}</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="p = $event" class="ml-1 text-center"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="my-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content border-0">
+                <div class="modal-body p-0">
+                  <div class="card border-0 p-sm-3 p-2 justify-content-center">
+                    <div class="card-header float-end pb-0 bg-white border-0 ">
+                      <div class="row">
+                        <div class="col ml-auto">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span> 
+                          </button>
+                        </div>
+                      </div>
+                      <h3 class="text-center">{{title}} Approval</h3>
+                      <br>
+                    </div>
+                    <br>
+                    <div class="card-body px-sm-4 mb-2 pt-1 pb-0">
+                        <form [formGroup]="categorytypeForm" (ngSubmit)="onSubmit()" class="forms-sample">
+                            <div class="form-group">
+                                <label for="">Answer Title</label>
+                                <input type="text" class="form-control form-control-sm" formControlName="AN_title" required [readonly]="isReadonly">
+                                <div class="invalid-feedback">
+                                    Please enter a media title.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">RecordLink</label>
+                                <input class="form-control form-control-sm" type="textarea" formControlName="AN_recordLink" rows="4"
+                                    required [readonly]="isReadonly">
+                                <div class="invalid-feedback">
+                                    Please enter a RecordLink.
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" *ngIf="!isReadonly" class="btn btn-primary mr-2">Save</button>
+                                <button class="btn btn-light" (click)="showForm=false" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    </app-sidebar>

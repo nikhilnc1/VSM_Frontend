@@ -1,0 +1,47 @@
+<app-sidebar>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                            <div class="brand-logo text-center">
+                                <img src="\assets\images\logo12.png" alt="vmslogo">
+                            </div>
+                            
+                            <div class="container">
+                                <h2>Add New Vehicle</h2>
+                                <form [formGroup]="addVehicleForm" (ngSubmit)="onSubmit()">
+                                  <div class="form-group">
+                                    <label for="name">Vehicle Name:</label>
+                                    <input type="text" class="form-control" formControlName="name" id="name" placeholder="Enter Vehicle Name">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="year">Vehicle Year:</label>
+                                    <input type="text" class="form-control" formControlName="year" id="year" placeholder="Enter Vehicle Year">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="licensePlate">Vehicle License Plate:</label>
+                                    <input type="text" class="form-control" formControlName="licensePlate" id="licensePlate" placeholder="Enter Vehicle License Plate">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="ownerName">Owner Name:</label>
+                                    <input type="text" class="form-control" formControlName="ownerName" id="ownerName" placeholder="Enter Owner Name">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="oemail">Owner Email:</label>
+                                    <input type="email" class="form-control" formControlName="oemail" id="oemail" placeholder="Enter Owner Email">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                              </div>
+                              
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+</app-sidebar>

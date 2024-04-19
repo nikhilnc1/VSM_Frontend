@@ -1,0 +1,48 @@
+<app-sidebar>
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-10 mx-auto">
+                <div class="card">
+                    <div class="">
+                        <h4 class="text-center mt-5">Reset Password</h4>
+                    </div>
+                    <div class="card-body">
+                        <form class="pt-3" [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+
+                            <div class="form-group">
+                                <label for="">Old Password</label>
+                                <input type="password" name="oldpass" id="oldpass" class="form-control form-control-sm"
+                                    minlength="8" maxlength="16" pattern=".{8,16}" formControlName="password"
+                                    placeholder="Please Enter Old Password">
+                                <!-- <div *ngIf="submitted && f[''].errors?.['required']" class="required-field">                        
+                                    Please enter an old password.
+                                    </div> -->
+                            </div>
+                            <div class="form-group">
+                                <label for="">New Password</label>
+                                <input type="password" name="newpass1" id="newpass1"
+                                    class="form-control form-control-sm" minlength="8" maxlength="16" pattern=".{8,16}"
+                                    formControlName="newPassword" placeholder="Please Enter New Password">
+                                <!-- <div *ngIf="submitted && f[''].errors?.['required']" class="required-field">                        
+                                    Please enter a new Password. Minimun 8 to maximum 16 characters are required.
+                                </div> -->
+                            </div>
+                            <div class="form-group">
+                                <label for="">Confirm New Password</label>
+                                <input type="password" name="newpass2" id="newpass2"
+                                    class="form-control form-control-sm" minlength="8" maxlength="16" pattern=".{8,16}"
+                                    formControlName="confirmPassword" placeholder="Please Confirm New Password">
+                                <!-- <div *ngIf="submitted && f['BR_title'].errors?.['required']" class="required-field">                        
+                                    Please enter a new Password. Minimun 8 to maximum 16 characters are required.
+                                </div> -->
+                            </div>
+                            <div class="d-grid col-6 mx-auto ">
+                                <button type="submit" class="btn btn-block btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-sidebar>

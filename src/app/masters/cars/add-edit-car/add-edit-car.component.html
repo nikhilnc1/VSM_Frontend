@@ -1,0 +1,300 @@
+<app-sidebar>
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">{{title}} Variant
+          </div>
+          <div class="card-body">
+            <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="forms-sample" >
+              <div class="row" *ngIf="title=='Edit'" (click)="url=''">
+                <span class="btn btn-primary mb-3 mx-3" data-toggle="modal" data-target="#gallery"
+                  (click)="getCarGraphics()">Add Photos</span>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-3">
+                  <label for="CA_brandId">Brand</label>
+                  <select class="form-control form-control-sm form-select" formControlName="CA_brandId"
+                    [attr.disabled]="isReadonly ? '' : null" (change)="getAllModels($any($event.target).value)">
+                    <option value="" selected>Select Brand</option>
+                    <option *ngFor="let brand of brands" [value]="brand.BR_id">{{brand.BR_title}}</option>
+                  </select>
+                  <div *ngIf="submitted && f['CA_brandId'].errors?.['required']" class="required-field">
+                    Please select a brand.
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label for="">Car Model</label>
+                  <!-- <input type="text" class="form-control" formControlName ="CA_modelId" > -->
+                  <select class="form-control form-control-sm form-select " formControlName="CA_modelId"
+                    [attr.disabled]="isReadonly ? '' : null">
+                    <option value="" selected>Select Model</option>
+                    <option *ngFor="let model of models" [value]="model.MO_id">{{model.MO_title}}</option>
+                  </select>
+                  <div *ngIf="submitted && f['CA_modelId'].errors?.['required']" class="required-field">
+                    Please select a model.
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label for="Variant">Variant</label>
+                  <input class="form-control form-control-sm" type="text" formControlName="CA_variant"
+                    placeholder="Enter Variant" [readonly]="isReadonly">
+                  <div *ngIf="submitted && f['CA_variant'].errors?.['required']" class="required-field">
+                    Please enter a Variant.
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Ex-Showroom Price</label>
+                  <input class="form-control form-control-sm" type="text" placeholder="Enter Ex-Showroom Price"
+                    formControlName="CA_exshowroomprice" [readonly]="isReadonly">
+                  <div *ngIf="submitted && f['CA_exshowroomprice'].errors?.['required']" class="required-field">
+                    Please enter a Ex-showroom Price.
+                  </div>
+                </div>
+
+                <div class="col-md-3 mt-4">
+                  <label class="form-label">Engine CC</label>
+                  <input class="form-control form-control-sm" type="text" placeholder="Enter Engine CC"
+                    formControlName="CA_enginecc" [readonly]="isReadonly">
+                  <div *ngIf="submitted && f['CA_enginecc'].errors?.['required']" class="required-field">
+                    Please enter a Engine CC.
+                  </div>
+                </div>
+                <div class="col-md-3 mt-4">
+                  <label class="form-label">Fuel</label>
+                  <input class="form-control form-control-sm" type="text" placeholder="Enter Fuel"
+                    formControlName="CA_fuel" [readonly]="isReadonly">
+                  <div *ngIf="submitted && f['CA_fuel'].errors?.['required']" class="required-field">
+                    Please enter a Fuel type.
+                  </div>
+                </div>
+                <div class="col-md-3 mt-4">
+                  <label class="form-label">isDiscontinued</label>
+                  <!-- <input class="form-control form-control-sm" type="text" placeholder="Enter is Continued or Not"
+                    formControlName='CA_isDiscontinued' [readonly]="isReadonly"> -->
+                  <!-- <div class="form-group row">
+                      <div class="col-sm-6">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="CA_isDiscontinued" id="membershipRadios1" value="0">
+                            No
+                          <i class="input-helper"></i></label>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="CA_isDiscontinued" id="membershipRadios2" value="1">
+                            Yes
+                          <i class="input-helper"></i></label>
+                        </div>
+                      </div>
+                    </div> -->
+                  <select class="form-control form-control-sm form-select" formControlName="CA_isDiscontinued"
+                    [attr.disabled]="isReadonly ? '' : null">
+                    <option value=1>No</option>
+                    <option value=0>Yes</option>
+                  </select>
+                  <div *ngIf="submitted && f['CA_isDiscontinued'].errors?.['required']" class="required-field">
+                    Please select one option
+                  </div>
+                </div>
+
+                <div class="col-md-3 mt-4">
+                  <label class="form-label">Slug</label>
+                  <input class="form-control form-control-sm" type="text" placeholder="Enter Slug"
+                    formControlName="CA_slug" [readonly]="isReadonly">
+                  <div *ngIf="submitted && f['CA_slug'].errors?.['required']" class="required-field">
+                    Please enter a slug.
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+              <!--features start-->
+              <div class="text-primary my-4 mb-0">
+                <h4><b>Variant Features</b></h4>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-3  mt-4" *ngFor="let category of categoryFormFields">
+                  <ng-container *ngIf="category.categoryType==1">
+                    <label class="form-label">{{category.title}}</label>
+                    <input *ngIf="!category.dropdown" class="form-control form-control-sm" type="text"
+                      placeholder="Enter {{category.title}}" formControlName="{{category.fieldname}}"
+                      [readonly]="isReadonly">
+                    <select *ngIf="category.dropdown" class="form-control form-control-sm form-select "
+                      formControlName="{{category.fieldname}}" [attr.disabled]="isReadonly ? '' : null">
+                      <option value=null selected>Select {{category.title}}</option>
+                      <option *ngFor="let option of category.options" [value]="option.OP_id">{{option.OP_title}}
+                      </option>
+                    </select>
+                  </ng-container>
+                 <!--  <ng-container *ngIf="category.categoryType==2">
+                    <label class="form-label">{{category.title}}</label>
+                    <div class="row">
+                      <div class="form-check ml-4 mr-4 mt-0" *ngFor="let option of category.options">
+                        <input type="checkbox" class="form-check-input" id="{{option.OP_id}}"
+                          [(ngModel)]="option.checked" value="{{option.OP_id}}" [ngModelOptions]="{standalone: true}">
+                        <label class="form-label" for="{{option.OP_id}}">{{option.OP_title}}
+                        </label>
+                      </div>
+                    </div>
+                  </ng-container> -->
+                </div>
+              </div>
+              <div class="row form-group">
+                <div *ngFor="let category of checkBoxCategoryList">
+
+                  <!-- <ng-container *ngIf="category.categoryType==2"> -->
+                  <label class="form-label">{{category.title}}</label>
+
+                  <div class="row">
+                    <div class="form-check ml-5 mr-4 mt-0" *ngFor="let option of category.options">
+                      <input type="checkbox" class="form-check-input" id="{{option.OP_id}}" [(ngModel)]="option.checked"
+                        value="{{option.OP_id}}" [ngModelOptions]="{standalone: true}"
+                        (change)="onCheckBoxValueChange(option)">
+                      <label class="form-label" for="{{option.OP_id}}">{{option.OP_title}}
+								
+                      </label>
+                    </div>
+                  </div>
+                  <!-- </ng-container> -->
+
+
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                <div class="form-check ml-4 mt-0" *ngFor="let element of checkBoxCategoryList">
+                  <input type="checkbox" class="form-check-input" id="{{element.fieldname}}" [(ngModel)]="element.checked"
+                    value="{{fieldname.fieldname}}" [ngModelOptions]="{standalone: true}">
+                  <label class="form-check-label" for="">{{element.title}}</label>
+                </div>
+              </div> -->
+              <!--Features end-->
+
+              <div class="text-center">
+                <button *ngIf="!isReadonly" type="submit" class="btn btn-primary mr-2">Submit</button>
+                <button class="btn btn-light" routerLink="/masters/car-list">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="title=='Edit'" class="modal fade" id="gallery" tabindex="-1" role="dialog" aria-labelledby="gallery"
+      aria-hidden="true">
+      <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="galleryLabel">Gallery Options</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="car-details-tab">
+                    <ul class="nav nav-tabs">
+                      <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#upload">Upload Photos</a>
+                      </li>
+                      <li class="nav-item" *ngFor="let graphictype of graphictypeList"
+                        (click)="onSelect(graphictype.GTY_id)">
+                        <a class="nav-link" data-toggle="tab"
+                          href="#g-{{graphictype.GTY_id}}">{{graphictype.GTY_title}}</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane fade" id="upload">
+                        <div class="car-details-box">
+                          <form [formGroup]="uploadForm" (ngSubmit)="submitUploadForm()" class="forms-sample">
+                            <div class="row form-group">
+                              <div class="col-lg-8">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <label for="GRA_typeId">Graphic Type</label>
+                                    <select class="form-control form-control-sm form-select"
+                                      formControlName="GRA_typeId" (change)="showUploadInput=true">
+                                      <option value="" selected disabled>Select Graphic Type</option>
+                                      <option *ngFor="let graphictype of graphictypeList" [value]="graphictype.GTY_id">
+                                        {{graphictype.GTY_title}}</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-4" *ngIf="showUploadInput">
+                                    <label class="form-label text-center">Upload Image</label>
+                                    <input type="file" (change)="onSelectFile($event)" title=" " value="" />
+                                    <!-- <input type="file" (change)="onSelectFile($event)" name="uploadfile" id="img" style="display:none;" />
+                                    <label for="img">Click me to upload image</label> -->
+                                  </div>
+                                  <div class="col-md-4">
+                                    <label for="GRA_caption">Caption</label>
+                                    <input class="form-control form-control-sm" type="text"
+                                      formControlName="GRA_caption" placeholder="Enter Caption">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-4">
+                                <img [src]="url" height="100">
+                              </div>
+                            </div>
+                            <div class="text-center">
+                              <button type="submit" class="btn btn-primary mr-2">Save</button>
+                              <!-- <button class="btn btn-light" routerLink="/masters/car-list">Cancel</button> -->
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="tab-pane" id="g-{{graphictype.GTY_id}}" *ngFor="let graphictype of graphictypeList">
+                        <div class="container">
+                          <div class="row">
+                            <div class="card-group ">
+                              <div class="row" *ngFor="let image of filteredGraphics">
+                                <div class="card mx-4 ">
+                                  <img class="card-img-top mx-auto img-thumbnail" src="{{imgBaseURL}}{{image.GRA_url}}"
+                                    style="height:75px; width:125px;" alt="Card image cap">
+                                  <!-- <div class="card-body">
+                                    <h6 class="card-title text-center">KIA</h6>
+                                  </div> -->
+                                </div>
+                                <!-- <div class="card col-lg-2">
+                                  <img class="card-img-top mx-auto img-thumbnail"
+                                    src="/assets/uploads/maruti-suzuki.jpg" style="height:75px; width:125px;"
+                                    alt="Card image cap">
+                                  <div class="card-body">
+                                    <h6 class="card-title text-center">Maruti Suzuki</h6>
+                                  </div>
+                                </div>
+                                <div class="card col-lg-2">
+                                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/tata.jpg"
+                                    style="height:75px; width:125px;" alt="Card image cap">
+                                  <div class="card-body">
+                                    <h6 class="card-title text-center">TATA</h6>
+                                  </div>
+                                </div>
+                                <div class="card col-lg-2">
+                                  <img class="card-img-top mx-auto img-thumbnail" src="/assets/uploads/volkswagen.jpg"
+                                    style="height:75px; width:125px;" alt="Card image cap">
+                                  <div class="card-body">
+                                    <span class="text-sm text-center">Volkswagen</span>
+                                  </div>
+                                </div> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-sidebar>

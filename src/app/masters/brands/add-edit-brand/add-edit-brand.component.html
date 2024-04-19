@@ -1,0 +1,71 @@
+<app-sidebar>
+	<div class="content-wrapper">
+		<div class="row">
+			<div class="col-12 grid-margin stretch-card">
+				<div class="card">
+					<div class="card-header card-title bg-primary rounded-top text-white text-center  mb-0">{{title}}
+						Brands</div>
+					<div class="card-body">
+						<form [formGroup]="brandForm" class="forms-sample" (ngSubmit)="onSubmit()">
+							<div class="row">
+								<div class="form-group col-lg-6">
+									<label for="brand">Brand Name</label>
+									<input type="text" class="form-control form-control-sm" formControlName="BR_title"
+										placeholder="Brand Name" [readonly]="isReadonly">
+									<div *ngIf="submitted && f['BR_title'].errors?.['required']" class="required-field">
+										Brand Name required.
+									</div>
+								</div>
+								<!-- <div class="form-group">
+								<label>Image of Brand</label>
+								<input type="file"  class="file-upload-default">
+								<div class="input-group col-xs-12">
+									<input type="text" class="form-control file-upload-info" formControlName="BR_logo"  placeholder="Upload Image">
+									<span class="input-group-append">
+										<button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+									</span>
+								</div>
+							</div> -->
+								<div class="form-group col-lg-6">
+									<label for="brand">Slug</label>
+									<input type="text" class="form-control form-control-sm" formControlName="BR_slug"
+										placeholder="Brand Slug" [readonly]="isReadonly">
+									<div *ngIf="submitted && f['BR_slug'].errors?.['required']" class="required-field">
+										Brand Slug required.
+									</div>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="description">Description</label>
+									<textarea class="form-control form-control-sm" formControlName="BR_description" rows="4"
+										placeholder="Enter short description." [readonly]="isReadonly"></textarea>
+									<div *ngIf="submitted && f['BR_description'].errors?.['required']"
+										class="required-field">
+										Description required.
+									</div>
+								</div>
+								
+								<div class="form-group col-lg-6">
+									<label class="form-label" for="fileInput">Image of Brand</label>
+									<input #fileInput [ngClass]="imgSrc == '' ? '' : 'hideFileInput'"
+										class="form-control form-control-sm" type="file" (change)="onFileChange($event)" [attr.disabled]="isReadonly ? '' :null"
+										[readonly]="isReadonly">
+									<div *ngIf="submitted && f['BR_logo'].errors?.['required']" class="required-field">
+										Brand logo required.
+									</div>
+									<div class="form-group col-lg-6" *ngIf="imgSrc && imgSrc !== ''">
+										<img [src]="imgSrc" height="100" (click)="triggerUpload()" class="pointer">
+									</div>
+								</div>	
+							</div>
+
+							<div class="text-center">
+								<button *ngIf="!isReadonly" type="submit" class="btn btn-primary mr-2">Submit</button>
+								<button class="btn btn-light" routerLink="/masters/brand-list">Cancel</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</app-sidebar>
